@@ -3,7 +3,7 @@ import { omit } from 'lodash'
 import { prisma } from 'utils/db'
 import { hashPassword, comparePassword } from 'utils/password'
 import { signAccessToken, signRefreshToken } from 'utils/jwt'
-import jwt, { VerifyErrors } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 const excludedField = ['hashedPassword']
 export const registerUser = async (req: Request, res: Response) => {
   const { email, name, password } = req.body
@@ -157,7 +157,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
   }
 }
 
-export const logOut = async (req: Request, res: Response, next: NextFunction) => {
+export const logOut = async (req: Request, res: Response) => {
   const cookie = req.cookies
   if (!cookie) {
     return res.status(401).json({
@@ -182,5 +182,10 @@ export const logOut = async (req: Request, res: Response, next: NextFunction) =>
     where: {
       id: refreshTokenInDb.id
     }
+  })
+  // need to clear req.user in here too
+  req.user = undefined
+  return res.status(200).json({
+    msg: 'Log out successfully'
   })
 }

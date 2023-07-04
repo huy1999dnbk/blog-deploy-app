@@ -2,11 +2,13 @@ import express from 'express'
 import { registerUser, loginUser, handleRefreshToken, logOut } from 'controllers/authControllers'
 import { validate } from 'utils/validateSchema/validate'
 import { registerInfoSchema, loginInfoSchema } from 'utils/validateSchema/validateSchema'
+import { isLoggedIn, veryfyToken } from 'middlewares/authMiddleware'
 const authRoutes = express()
 
-authRoutes.get('/register', validate(registerInfoSchema), registerUser)
-authRoutes.get('/login', validate(loginInfoSchema), loginUser)
-authRoutes.get('/refresh-token', handleRefreshToken)
-authRoutes.get('/log-out', logOut)
+authRoutes.post('/register', validate(registerInfoSchema), registerUser)
+authRoutes.post('/login', validate(loginInfoSchema), loginUser)
+authRoutes.post('/refresh-token', handleRefreshToken)
+authRoutes.post('/log-out', veryfyToken, logOut)
+authRoutes.get('/isAuth', veryfyToken, isLoggedIn)
 
 export default authRoutes
