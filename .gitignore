@@ -1,27 +1,42 @@
-blog-deploy-app-fe/logs
-blog-deploy-app-fe/*.log
-blog-deploy-app-fe/npm-debug.log*
-blog-deploy-app-fe/arn-debug.log*
-blog-deploy-app-fe/yarn-error.log*
-blog-deploy-app-fe/pnpm-debug.log*
-blog-deploy-app-fe/lerna-debug.log*
 
-blog-deploy-app-fe/node_modules
-blog-deploy-app-fe/dist
-blog-deploy-app-fe/dist-ssr
-blog-deploy-app-fe/*.local
-
-# Editor directories and files
-blog-deploy-app-fe/.vscode/*
-blog-deploy-app-fe/!.vscode/extensions.json
-blog-deploy-app-fe/.idea
-blog-deploy-app-fe/.DS_Store
-blog-deploy-app-fe/*.suo
-blog-deploy-app-fe/*.ntvs*
-blog-deploy-app-fe/*.njsproj
-blog-deploy-app-fe/*.sln
-blog-deploy-app-fe/*.sw?
 
 blog-deploy-app-be/node_modules
 blog-deploy-app-be/dist 
 blog-deploy-app-be/.env 
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+blog-deploy-app-fe/node_modules
+blog-deploy-app-fe/.pnp
+blog-deploy-app-fe/.pnp.js
+
+# testing
+blog-deploy-app-fe/coverage
+
+# next.js
+blog-deploy-app-fe/.next/
+blog-deploy-app-fe/out/
+
+# production
+blog-deploy-app-fe/build
+
+# misc
+blog-deploy-app-fe/.DS_Store
+blog-deploy-app-fe/*.pem
+
+# debug
+blog-deploy-app-fe/npm-debug.log*
+blog-deploy-app-fe/yarn-debug.log*
+blog-deploy-app-fe/yarn-error.log*
+
+# local env files
+blog-deploy-app-fe/.env*.local
+
+# vercel
+blog-deploy-app-fe/.vercel
+
+# typescript
+blog-deploy-app-fe/*.tsbuildinfo
+blog-deploy-app-fe/next-env.d.ts
