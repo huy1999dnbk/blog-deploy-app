@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { omit } from 'lodash'
-import { prisma } from 'utils/db'
-import { hashPassword, comparePassword } from 'utils/password'
-import { signAccessToken, signRefreshToken } from 'utils/jwt'
+import { prisma } from '../utils/db'
+import { hashPassword, comparePassword } from '../utils/password'
+import { signAccessToken, signRefreshToken } from '../utils/jwt'
 import jwt from 'jsonwebtoken'
 const excludedField = ['hashedPassword']
 export const registerUser = async (req: Request, res: Response) => {
@@ -101,10 +101,10 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
   })
 }
 
-export const handleRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
+export const handleRefreshToken = async (req: Request, res: Response) => {
   const cookie = req.cookies
   if (!cookie) {
-    return res.status(401).json({
+    return res.status(302).json({
       error: 'Refresh token is required'
     })
   }
@@ -118,7 +118,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
     }
   })
   if (!refreshTokenInDb) {
-    return res.status(404).json({
+    return res.status(302).json({
       error: 'Refresh token is invalid'
     })
   }
@@ -151,7 +151,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
       accessToken: newAccessToken
     })
   } catch (error) {
-    return res.status(404).json({
+    return res.status(302).json({
       error: 'Refresh token is invalid'
     })
   }
@@ -160,7 +160,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
 export const logOut = async (req: Request, res: Response) => {
   const cookie = req.cookies
   if (!cookie) {
-    return res.status(401).json({
+    return res.status(302).json({
       error: 'Refresh token is required'
     })
   }
@@ -174,7 +174,7 @@ export const logOut = async (req: Request, res: Response) => {
     }
   })
   if (!refreshTokenInDb) {
-    return res.status(404).json({
+    return res.status(302).json({
       error: 'Refresh token is invalid'
     })
   }
