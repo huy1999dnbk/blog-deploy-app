@@ -3,7 +3,7 @@ import React, { ReactNode, createContext, useState, Dispatch } from 'react'
 
 type AuthModalContextType = {
     isOpen: boolean
-    setIsModal: Dispatch<boolean>
+    setIsOpenModal: Dispatch<boolean>
 }
 
 interface IAuthProvider {
@@ -12,14 +12,14 @@ interface IAuthProvider {
 
 export const AuthModalContext = createContext<AuthModalContextType>({
     isOpen: false,
-    setIsModal: () => {},
+    setIsOpenModal: () => {},
 })
 
 export const AuthModalProvider: React.FunctionComponent<IAuthProvider> = ({ children }) => {
-    const [isOpen, setIsModal] = useState<boolean>(false)
+    const [isOpen, setIsOpenModal] = useState<boolean>(false)
 
     return (
-        <AuthModalContext.Provider value={{ isOpen, setIsModal }}>
+        <AuthModalContext.Provider value={{ isOpen, setIsOpenModal }}>
             {children}
         </AuthModalContext.Provider>
     )
