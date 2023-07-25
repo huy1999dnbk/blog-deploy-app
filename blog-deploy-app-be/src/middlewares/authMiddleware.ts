@@ -13,7 +13,11 @@ declare module 'express-serve-static-core' {
 }
 export const veryfyToken = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
-  const token = authHeader && authHeader.split(' ')[1]
+  let token
+  if (authHeader && authHeader.split(' ')[1]) {
+    token = authHeader && authHeader.split(' ')[1]
+  }
+
   if (!token) {
     return res.status(401).json({
       error: 'No token'

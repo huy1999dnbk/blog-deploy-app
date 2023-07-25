@@ -1,5 +1,5 @@
 import express from 'express'
-import { registerUser, loginUser, handleRefreshToken, logOut } from '../controllers/authControllers'
+import { registerUser, loginUser, handleRefreshToken, logOut, getSettingUser } from '../controllers/authControllers'
 import { validate } from '../utils/validateSchema/validate'
 import { registerInfoSchema, loginInfoSchema } from '../utils/validateSchema/validateSchema'
 import { getMe, veryfyToken } from '../middlewares/authMiddleware'
@@ -10,5 +10,6 @@ authRoutes.post('/login', validate(loginInfoSchema), loginUser)
 authRoutes.post('/refresh-token', handleRefreshToken)
 authRoutes.post('/log-out', veryfyToken, logOut)
 authRoutes.get('/getMe', veryfyToken, getMe)
+authRoutes.get('/setting', veryfyToken, getSettingUser)
 
 export default authRoutes

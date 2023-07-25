@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 import { omit } from 'lodash'
 import { prisma } from '../utils/db'
 import { hashPassword, comparePassword } from '../utils/password'
@@ -54,7 +54,7 @@ export const registerUser = async (req: Request, res: Response) => {
   })
 }
 
-export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body
   const existedUser = await prisma.user.findFirst({
     where: {
@@ -95,7 +95,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     sameSite: 'strict',
     maxAge: 7 * 24 * 60 * 60 * 1000
   })
-  return res.status(201).json({
+  return res.status(200).json({
     ...createdUserWithoutPassword,
     accessToken
   })
@@ -187,5 +187,11 @@ export const logOut = async (req: Request, res: Response) => {
   req.user = undefined
   return res.status(200).json({
     msg: 'Log out successfully'
+  })
+}
+
+export const getSettingUser = (req: Request, res: Response) => {
+  res.status(200).json({
+    msg: 'this router is protected'
   })
 }

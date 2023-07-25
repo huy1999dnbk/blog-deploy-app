@@ -1,17 +1,23 @@
 'use client'
-import { useContext } from "react"
-import { AuthContext } from "@/contexts/AuthContext"
-import { redirect } from 'next/navigation'
-
+import AxiosGlobal from '@/utils/AxiosConfig'
+import { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '@/contexts/AuthContext'
 const Profile = () => {
     const { user } = useContext(AuthContext)
-
-    if (!user) {
-        redirect('/')
+    const [info,setInfo] = useState('')
+    const getSetting = async() => {
+        const data = await AxiosGlobal.get('/auth/setting')
+        setInfo(data?.data?.msg)
     }
 
+    useEffect(() => {
+        if(user) {
+            getSetting()
+        }
+    }, [user])
+
     return (
-        <>Profile user is here</>
+        <div>Profile user is here {user?.email} +  {info}</div>
     )
 }
 

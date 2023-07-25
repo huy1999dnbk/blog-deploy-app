@@ -4,18 +4,24 @@ import { AuthContext } from "@/contexts/AuthContext"
 import { AuthModalContext } from "@/contexts/AuthModal"
 import Button from "@/components/UI/button"
 import Modal from "@/components/UI/dialog"
+import SignUpForm from "../sign-up-form"
+import SignInForm from "../sign-in-form"
 import Link from "next/link"
 const Header = () => {
-    const { user } = useContext(AuthContext)
-    const { isOpen, setIsOpenModal } = useContext(AuthModalContext)
-
-    const handleShowAuthModal = () => {
+    const { user, handleSignOut } = useContext(AuthContext)
+    const { isOpen, setIsOpenModal, methodAuth, setMethodAuth } = useContext(AuthModalContext)
+   
+    const handleShowAuthModal = (type: string) => {
         setIsOpenModal(true)
+        setMethodAuth(type)
     }
 
     const closeModal = () => {
         setIsOpenModal(false)
+
     }
+
+    const titleModal = methodAuth === 'sign-in' ? 'Login form' : methodAuth === 'sign-up' ? 'Create an account' : ''
 
     return <header className="flex justify-center items-center p-3">
         <div className="max-w-screen-2xl flex justify-between w-full">
@@ -24,16 +30,28 @@ const Header = () => {
             </div>
             <div>
                 {user ? (
-                    <>User is logged in</>
+                    <div>
+                        <Link href="/profile">Profile</Link>
+                        <Button className="ml-3" onClick={handleSignOut}>Logout</Button>
+                    </div>
                 ) : (
                     <>
-                        <Button onClick={handleShowAuthModal}>Sign in</Button>
-                        <Button onClick={handleShowAuthModal}>Sign up</Button>
+                        <Button onClick={() => handleShowAuthModal('sign-in')}>Sign in</Button>
+                        <Button onClick={() => handleShowAuthModal('sign-up')}>Sign up</Button>
                     </>
                 )}
             </div>
         </div>
-        <Modal title="auth" isOpen={isOpen} onClose={closeModal}>auth here</Modal>
+        <Modal title={titleModal} isOpen={isOpen} onClose={closeModal}>
+            <div>
+                {methodAuth === 'sign-in' ? <SignInForm /> : methodAuth === 'sign-up' ? <SignUpForm /> : null}
+                {methodAuth === 'sign-up' ? (
+                    <p className="text-black mt-4">Already have an account? <span className="font-bold cursor-pointer" onClick={() => setMethodAuth('sign-in')}>Sign In</span></p>
+                ) : methodAuth === 'sign-in' ? (
+                    <p className="text-black mt-4">Not havent account yet? <span className="font-bold cursor-pointer" onClick={() => setMethodAuth('sign-up')}>Sign Up</span></p>
+                ) : null}
+            </div>
+        </Modal>
     </header>
 }
 
